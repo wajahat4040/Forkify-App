@@ -26,7 +26,7 @@ export const categories = [
     id: 0,
     name: 'Pizza',
     photo_url:
-      'https://amp.businessinsider.com/images/5c084bf7bde70f4ea53f0436-750-563.jpg',
+      'https://unsplash.com/photos/lHUdfk5WGXc/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8MTF8fHBpenphfHwwfDB8fHwxNjQwNDQ3NjY3&force=true&w=640',
   },
 ];
 
