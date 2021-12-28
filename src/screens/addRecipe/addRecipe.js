@@ -1,4 +1,10 @@
 import React from 'react';
+import styles from '../addRecipe/styles';
+import { AsyncStorage } from 'react-native';
+
+import recipes from '../../data/dataArrays';
+// var fs = require('react-native-fs');
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,13 +14,24 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
+// Storing the Data in Persistant
+const storeData = async (value) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('@storage_Key', jsonValue);
+    alert('Recipe is Saved!');
+  } catch (e) {
+    // saving error
+  }
+};
+
+// Retrieving it
 
 const addRecipe = () => {
   //   const [text, onChangeText] = React.useState('Useless Text');
-  const [imageURL, onChangeImageURL] = React.useState(null);
   const [recipeTitle, onChangeRecipeTitle] = React.useState(null);
+  const [imageURL, onChangeImageURL] = React.useState(null);
   const [recipeDuration, onChangeRecipeDuration] = React.useState(null);
-
   const [recipeCategory, onChangeRecipeCategory] = React.useState(null);
   const [recipeDescription, onChangeRecipeDescription] = React.useState(null);
   return (
@@ -26,28 +43,23 @@ const addRecipe = () => {
       /> */}
       <TextInput
         style={styles.input}
-        imageURL={onChangeImageURL}
-        value={imageURL}
+        onChangeText={onChangeImageURL}
         placeholder="Recipe Image URL"
       />
       <TextInput
         style={styles.input}
-        recipeTitle={onChangeRecipeTitle}
-        value={recipeTitle}
+        onChangeText={onChangeRecipeTitle}
         placeholder="Recipe Title"
       />
       <TextInput
         style={styles.input}
-        recipeDuration={onChangeRecipeDuration}
-        value={recipeDuration}
+        onChangeText={onChangeRecipeDuration}
         placeholder="Recipe Duration"
-        keyboardType="numeric"
       />
 
       <TextInput
         style={styles.input}
-        recipeCategory={onChangeRecipeCategory}
-        value={recipeCategory}
+        onChangeText={onChangeRecipeCategory}
         placeholder="Recipe Category"
       />
 
@@ -55,46 +67,35 @@ const addRecipe = () => {
         multiline={true}
         numberOfLines={4}
         style={styles.description}
-        recipeDescription={onChangeRecipeDescription}
-        value={recipeDescription}
+        onChangeText={onChangeRecipeDescription}
         placeholder="Recipe Description"
       />
-      <TouchableOpacity style={styles.appButtonContainer}>
+      <TouchableOpacity
+        style={styles.appButtonContainer}
+        onPress={() => {
+          var obj = {};
+          obj['recipeId'] = 10;
+          obj['categoryId'] = 3;
+          obj['title'] = `${recipeTitle}`;
+          obj['photo_url'] = `${imageURL}`;
+          obj['time'] = `${recipeDuration}`;
+          obj['description'] = `${recipeDescription}`;
+          storeData(obj);
+
+          //   const formData = {
+          //     recipeId: 10,
+          //     categoryId: 3,
+          //     title: `${recipeTitle}`,
+          //     photo_url: `${imageURL}`,
+          //     time: `${recipeDuration}`,
+          //     description: `${recipeDescription}`,
+          //   };
+        }}
+      >
         <Text style={styles.appButtonText}> Save</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  description: {
-    height: 150,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    textAlignVertical: 'top',
-  },
-
-  appButtonContainer: {
-    elevation: 8,
-    backgroundColor: '#009688',
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-  },
-  appButtonText: {
-    fontSize: 18,
-    color: '#fff',
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    textTransform: 'uppercase',
-  },
-});
 
 export default addRecipe;

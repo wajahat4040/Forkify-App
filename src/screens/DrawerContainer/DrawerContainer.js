@@ -41,6 +41,14 @@ export default function DrawerContainer(props) {
             navigation.closeDrawer();
           }}
         />
+        <MenuButton
+          title="Saved Recipes"
+          source={require('../../../assets/icons/savedRecipe.png')}
+          onPress={() => {
+            navigation.navigate('Saved Recipes');
+            navigation.closeDrawer();
+          }}
+        />
       </View>
     </View>
   );
