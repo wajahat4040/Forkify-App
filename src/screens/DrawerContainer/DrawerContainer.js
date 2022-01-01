@@ -49,6 +49,14 @@ export default function DrawerContainer(props) {
             navigation.closeDrawer();
           }}
         />
+        <MenuButton
+          title="Log out"
+          source={require('../../../assets/icons/logout.png')}
+          onPress={() => {
+            navigation.navigate('Saved Recipes');
+            navigation.closeDrawer();
+          }}
+        />
       </View>
     </View>
   );
