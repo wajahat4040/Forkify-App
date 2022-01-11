@@ -1,4 +1,5 @@
 import React from 'react';
+import { Animated } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -12,8 +13,26 @@ import SearchScreen from '../screens/Search/SearchScreen';
 import IngredientsDetailsScreen from '../screens/IngredientsDetails/IngredientsDetailsScreen';
 import addRecipe from '../screens/addRecipe/addRecipe';
 import savedRecipes from '../screens/savedRecipes/savedRecipes';
-// import LoginScreen from '../screens/Login/Login';
+import LogIn from '../screens/LogIn/LogIn';
 const Stack = createStackNavigator();
+
+//  Fade In Transitions
+const forFade = ({ current, next }) => {
+  const opacity = Animated.add(
+    current.progress,
+    next ? next.progress : 0
+  ).interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, 1, 0],
+  });
+
+  return {
+    leftButtonStyle: { opacity },
+    rightButtonStyle: { opacity },
+    titleStyle: { opacity },
+    backgroundStyle: { opacity },
+  };
+};
 
 function MainNavigator() {
   return (
@@ -27,8 +46,11 @@ function MainNavigator() {
         },
       }}
     >
-      {/* <Stack.Screen name="LoginScreen" component={LoginScreen} /> */}
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ cardStyleInterpolator: forFade }}
+      />
       <Stack.Screen name="Categories" component={CategoriesScreen} />
       <Stack.Screen name="Recipe" component={RecipeScreen} />
       <Stack.Screen name="RecipesList" component={RecipesListScreen} />
@@ -40,6 +62,7 @@ function MainNavigator() {
       />
       <Stack.Screen name="Add Recipe" component={addRecipe} />
       <Stack.Screen name="Saved Recipes" component={savedRecipes} />
+      <Stack.Screen name="Log In" component={LogIn} />
     </Stack.Navigator>
   );
 }
